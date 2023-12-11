@@ -20,58 +20,58 @@ The console app supports the following flags:
 
 ## Example
 Different threads instructions should be separated in file by an empty line. For example:
-```bash
+```
 ✗ cat prog.txt
 r1 = 1
 r2 = 2
 r3 = r1 + r2
-store SEQ_CST r1 r3
+store SEQ_CST #r1 r3
 
 r1 = 1
-load SEQ_CST r1 r3
+load SEQ_CST #r1 r3
 ```
 Now we can interpret this file:
-```bash
+```
 ✗ cargo run --bin main -- --file prog.txt --trace --model SC
+1: r1 = 1
+# REGISTERS
+| Thread 0: {}
+| Thread 1: {"r1": 1}
+# MEMORY
+| {}
+
+1: load ACQ #r1 r3
+# REGISTERS
+| Thread 0: {}
+| Thread 1: {"r1": 1, "r3": 0}
+# MEMORY
+| {}
+
 0: r1 = 1
 # REGISTERS
 | Thread 0: {"r1": 1}
-| Thread 1: {}
+| Thread 1: {"r1": 1, "r3": 0}
 # MEMORY
 | {}
 
 0: r2 = 2
 # REGISTERS
-| Thread 0: {"r2": 2, "r1": 1}
-| Thread 1: {}
+| Thread 0: {"r1": 1, "r2": 2}
+| Thread 1: {"r1": 1, "r3": 0}
 # MEMORY
 | {}
 
 0: r3 = r1 + r2
 # REGISTERS
-| Thread 0: {"r3": 3, "r2": 2, "r1": 1}
-| Thread 1: {}
+| Thread 0: {"r1": 1, "r3": 3, "r2": 2}
+| Thread 1: {"r1": 1, "r3": 0}
 # MEMORY
 | {}
 
-0: store REL r1 r3
+0: store REL #r1 r3
 # REGISTERS
-| Thread 0: {"r3": 3, "r2": 2, "r1": 1}
-| Thread 1: {}
-# MEMORY
-| {1: 3}
-
-1: r1 = 1
-# REGISTERS
-| Thread 0: {"r3": 3, "r2": 2, "r1": 1}
-| Thread 1: {"r1": 1}
-# MEMORY
-| {1: 3}
-
-1: load ACQ r1 r3
-# REGISTERS
-| Thread 0: {"r3": 3, "r2": 2, "r1": 1}
-| Thread 1: {"r3": 3, "r1": 1}
+| Thread 0: {"r1": 1, "r3": 3, "r2": 2}
+| Thread 1: {"r1": 1, "r3": 0}
 # MEMORY
 | {1: 3}
 ```
