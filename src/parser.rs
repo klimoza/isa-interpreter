@@ -42,19 +42,19 @@ pub fn parse_instruction(line: &str) -> Result<LabeledInstruction, String> {
         [r1, "=", r2, "/", r3] => Instruction::ArithDiv { r1: r1.to_string(), r2: r2.to_string(), r3: r3.to_string() },
         ["load", mode, address, r] => {
             let mode: Mode = mode.parse().map_err(|_| "Invalid mode".to_string())?;
-            Instruction::Load { mode, address: address.to_string(), r: r.to_string() }
+            Instruction::Load { mode, address: address[1..].to_string(), r: r.to_string() }
         },
         ["store", mode, address, r] => {
             let mode: Mode = mode.parse().map_err(|_| "Invalid mode".to_string())?;
-            Instruction::Store { mode, address: address.to_string(), r: r.to_string() }
+            Instruction::Store { mode, address: address[1..].to_string(), r: r.to_string() }
         },
         [to, ":=", "cas", mode, address, exp, des] => {
             let mode: Mode = mode.parse().map_err(|_| "Invalid mode".to_string())?;
-            Instruction::Cas { mode, address: address.to_string(), to: to.to_string(), exp: exp.to_string(), des: des.to_string() }
+            Instruction::Cas { mode, address: address[1..].to_string(), to: to.to_string(), exp: exp.to_string(), des: des.to_string() }
         },
         [to, ":=", "fai", mode, address, inc] => {
             let mode: Mode = mode.parse().map_err(|_| "Invalid mode".to_string())?;
-            Instruction::Fai { mode, address: address.to_string(), to: to.to_string(), inc: inc.to_string() }
+            Instruction::Fai { mode, address: address[1..].to_string(), to: to.to_string(), inc: inc.to_string() }
         },
         ["fence", mode] => {
             let mode: Mode = mode.parse().map_err(|_| "Invalid mode".to_string())?;

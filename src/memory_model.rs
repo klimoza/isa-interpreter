@@ -35,7 +35,7 @@ impl MemoryModel for SC {
       }
       let execution = executions.choose(&mut rand::thread_rng()).unwrap().clone();
       if debug_print {
-        println!("{:?}", execution.instruction);
+        println!("{}: {:?}", execution.thread_id, execution.instruction);
       }
       self.step(execution, debug_print);
     }
@@ -133,7 +133,7 @@ impl MemoryModel for TSO {
       }
       let execution = executions.choose(&mut rand::thread_rng()).unwrap().clone();
       if debug_print {
-        println!("{:?}", execution.instruction);
+        println!("{}: {:?}", execution.thread_id, execution.instruction);
       }
       self.step(execution, debug_print);
     }
@@ -238,7 +238,7 @@ impl MemoryModel for PSO {
       }
       let execution = executions.choose(&mut rand::thread_rng()).unwrap().clone();
       if debug_print {
-        println!("{:?}", execution.instruction);
+        println!("{}: {:?}", execution.thread_id, execution.instruction);
       }
       self.step(execution, debug_print);
     }

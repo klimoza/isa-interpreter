@@ -47,10 +47,10 @@ impl Debug for Instruction {
       Instruction::ArithMul { r1, r2, r3 } => write!(f, "{} = {} * {}", r1, r2, r3),
       Instruction::ArithDiv { r1, r2, r3 } => write!(f, "{} = {} / {}", r1, r2, r3),
       Instruction::Cond { r, label } => write!(f, "if {} goto {}", r, label),
-      Instruction::Load { mode, address, r } => write!(f, "load {:?} {} {}", mode, address, r),
-      Instruction::Store { mode, address, r } => write!(f, "store {:?} {} {}", mode, address, r),
-      Instruction::Cas { mode, address, to, exp, des } => write!(f, "{} := cas {:?} {} {} {}", to, mode, address, exp, des),
-      Instruction::Fai { mode, address, to, inc } => write!(f, "{} := fai {:?} {} {}", to, mode, address, inc),
+      Instruction::Load { mode, address, r } => write!(f, "load {:?} #{} {}", mode, address, r),
+      Instruction::Store { mode, address, r } => write!(f, "store {:?} #{} {}", mode, address, r),
+      Instruction::Cas { mode, address, to, exp, des } => write!(f, "{} := cas {:?} #{} {} {}", to, mode, address, exp, des),
+      Instruction::Fai { mode, address, to, inc } => write!(f, "{} := fai {:?} #{} {}", to, mode, address, inc),
       Instruction::Fence { mode } => write!(f, "fence {:?}", mode),
       Instruction::Propagate { thread_id, address, value } => write!(f, "propagate with thread_id = {}, address = {} and value = {}", thread_id, address, value)
     }
