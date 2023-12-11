@@ -22,9 +22,6 @@ struct Args {
 
     #[arg(short, long, default_value = "SC")]
     model: String,
-
-    #[arg(short, long)]
-    interactive: bool
 }
 
 fn main() {
